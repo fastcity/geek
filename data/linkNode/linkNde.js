@@ -66,15 +66,38 @@ class linkNode {
         let current = this.head
 
 
-        while (doubble && doubble.next) {
+        while (doubble) {
             current = current.next
-            doubble = doubble.next.next
+
+            doubble = doubble.next ? doubble.next.next : null
         }
 
         console.log(current.data);
 
         return current.data
 
+    }
+
+
+    // 删除倒数第n个  双指针 隔N ge
+    deleteNode(n) {
+
+        let start = this.head.next
+        let pre = this.head
+
+        let i = 0, end = this.head
+        while (i <= n) {
+            end = end.next
+            i++
+        }
+
+        while (end) {
+            pre = pre.next
+            start = start.next
+            end = end.next
+        }
+
+        pre.next = start.next
     }
 
     print() {
@@ -114,6 +137,10 @@ link.add(link.createNode(10))
 link.print()
 
 link.midNode()
+
+link.deleteNode(3)
+
+link.print()
 
 // 单链表反转
 
