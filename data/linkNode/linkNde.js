@@ -215,8 +215,13 @@ link2.add(link2.createNode(7))
 
 // link2.print()
 
-mergeLink(link2.head, link1.head).print()
+mergeLink(link2.head, link1.head)
 
 // 删除链表倒数第 n 个结点
 
 // 求链表的中间结点
+
+
+
+
+
