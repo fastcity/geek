@@ -171,7 +171,6 @@ function opNum(str) {
         if (stack1.length > 0) {
             stack1.unshift(res)
         }
-
     }
 
 
@@ -183,7 +182,7 @@ function opNum(str) {
 
 // test 
 
-console.log('2+6*4-1', opNum('2+6*4-1'));
+console.log('2+6*4-1*2', opNum('2+6*4-1*2'));
 
 
 
