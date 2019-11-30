@@ -1,5 +1,4 @@
 
-
 // LRU 算法简单实现---------
 
 // 数组 实现 思路： 找到之后放到最后一个，满了之后删除第一个
@@ -262,15 +261,133 @@ class linkNode2 {
 }
 
 
-const link2 = new linkNode2(3)
 
-link2.add(link2.createNode(1))
-link2.add(link2.createNode(2))
-link2.add(link2.createNode(2))
-link2.add(link2.createNode(2))
-link2.add(link2.createNode(4))
-link2.add(link2.createNode(5))
-link2.add(link2.createNode(5))
-link2.add(link2.createNode(6))
 
-link2.print()
+function link2Test() {
+    const link2 = new linkNode2(3)
+
+    link2.add(link2.createNode(1))
+    link2.add(link2.createNode(2))
+    link2.add(link2.createNode(2))
+    link2.add(link2.createNode(2))
+    link2.add(link2.createNode(4))
+    link2.add(link2.createNode(5))
+    link2.add(link2.createNode(5))
+    link2.add(link2.createNode(6))
+
+    link2.print()
+}
+
+
+
+// // 双链表 加 map
+class LRU2 {
+    constructor(cap = 20) {
+        this.head = null
+        this.tail = null
+        this.map = {}
+        this.len = 0
+        this.cap = cap
+    }
+    createNode(value, pre) {
+        return {
+            pre: pre,
+            data: value,
+            next: null
+        }
+    }
+
+    add(value) {
+
+        if (!this.head || this.cap == 1) {
+            // 
+            this.head = this.createNode(value)
+            this.map[value] = this.head
+            this.tail = this.head
+            this.len++
+            return
+        }
+
+        if (this.find(value)) {
+            return
+        }
+        if (this.len >= this.cap) {
+            this.del()
+        }
+        const newNode = this.createNode(value)
+        this.map[value] = newNode
+
+        this.tail.next = newNode
+        newNode.pre = this.tail
+
+        this.tail = newNode
+
+        this.len++
+    }
+
+    find(value) {
+        const node = this.map[value]
+        this.moveToTail(node)
+        return node
+    }
+
+    del(node) {
+        if (this.len == 1) {
+            this.reset()
+            return
+        }
+        if (node) { // 有就删除node
+            node.pre.next = node.next
+            node.next.pre = node.pre
+            this.len--
+            return
+        }
+        // 满了 删除第一个
+        this.head = this.head.next
+        this.head.pre = null
+        this.len--
+    }
+
+    reset() {
+        this.head = null
+        this.tail = null
+        this.map = {}
+        this.len = 0
+    }
+
+    moveToTail(node) {
+        if (!node) {
+            return
+        }
+        node.pre.next = node.next
+        node.next = null
+        this.tail.next = node
+    }
+
+    print() {
+        console.log(this.head);
+
+        let current = this.head
+        console.log(current.data);
+        while (current && current.next) {
+            console.log(current.next.data);
+            current = current.next
+        }
+
+    }
+}
+
+const lru2 = new LRU2(4)
+
+lru2.add(1)
+lru2.add(2)
+lru2.add(3)
+lru2.add(4)
+lru2.add(5)
+// lru2.add(6)
+// lru2.add(7)
+// lru2.add(4)
+// lru2.add(8)
+// lru2.add(2)
+
+lru2.print()
